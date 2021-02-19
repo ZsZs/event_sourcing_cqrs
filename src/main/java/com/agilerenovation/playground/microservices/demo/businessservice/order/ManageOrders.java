@@ -3,11 +3,12 @@ package com.agilerenovation.playground.microservices.demo.businessservice.order;
 import com.agilerenovation.playground.microservices.demo.domain.order.Order;
 import com.agilerenovation.playground.microservices.demo.domain.order.commands.CreateOrderCommand;
 import com.agilerenovation.playground.microservices.demo.domain.order.commands.OrderCommand;
-import io.eventuate.sync.AggregateRepository;
+import io.eventuate.AggregateRepository;
 import io.eventuate.EntityWithIdAndVersion;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class ManageOrders {
     private final AggregateRepository<Order, OrderCommand > orderRepository;
@@ -16,7 +17,7 @@ public class ManageOrders {
         this.orderRepository = orderRepository;
     }
 
-    public EntityWithIdAndVersion<Order> createOrder(String customer ) {
+    public CompletableFuture<EntityWithIdAndVersion<Order>> createOrder(String customer ) {
         return orderRepository.save( new CreateOrderCommand( customer ));
     }
 
